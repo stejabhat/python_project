@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #chatbox {
+            width: 300px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        #messages {
+            list-style: none;
+            padding: 20px;
+            margin: 0;
+            height: 400px;
+            overflow-y: scroll;
+        }
+        #messages li {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        #messages .user {
+            background: #d9fdd3;
+            text-align: right;
+        }
+        #messages .bot {
+            background: #f1f0f0;
+            text-align: left;
+        }
+        #input-container {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+        }
+        #input-container input {
+            border: none;
+            padding: 10px;
+            flex: 1;
+        }
+        #input-container button {
+            border: none;
+            padding: 10px;
+            background: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatbox">
+        <ul id="messages"></ul>
+        <div id="input-container">
+            <input type="text" id="message-input" placeholder="Type a message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const messageInput = document.getElementById('message-input');
+            const message = messageInput.value;
+            if (!message) return;
+
+            const userMessageElement = document.createElement('li');
+            userMessageElement.className = 'user';
+            userMessageElement.textContent = message;
+            document.getElementById('messages').appendChild(userMessageElement);
+
+            fetch('http://localhost:5000/webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botMessageElement = document.createElement('li');
+                botMessageElement.className = 'bot';
+                botMessageElement.textContent = data.message;
+                document.getElementById('messages').appendChild(botMessageElement);
+            });
+
+            messageInput.value = '';
+        }
+    </script>
+</body>
+</html>
