@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Are Important</title>
+    <style>
+        body {
+            background-image: url('https://wallpaper.dog/large/17197737.jpg');
+            background-size: cover;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: aliceblue;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: aliceblue;
+            font-weight: bolder;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 2s ease-in-out;
+        }
+        p {
+            color: #333; /* Dark gray for readability */
+            background-color: #FFEB3B; /* Vibrant yellow */
+            padding: 20px 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+            animation: slideUp 2s ease-in-out;
+            margin-bottom: 20px;
+        }
+        p:hover {
+            background-color: #FDD835; /* Slightly darker yellow on hover */
+            color: #000; /* Black text on hover */
+        }
+        .button-container {
+            display: flex;
+            gap: 20px;
+        }
+        .button {
+            padding: 15px 30px;
+            font-size: 1em;
+            font-weight: bold;
+            color: #FFF;
+            background-color: #1c5c1e; /* Green */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: buttonFadeIn 2s ease-in-out;
+        }
+        .button:hover {
+            background-color: #45a049; /* Darker green */
+            transform: translateY(-5px); /* Lift effect */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes buttonFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>We Do Care About U...!</h1>
+    <p>Welcome to a journey of positivity and well-being! Mental health is not just an aspect of life—it's the foundation of a vibrant and 
+        fulfilling existence. <br/>Our project on mental health is dedicated to illuminating the path to emotional and psychological wellness, 
+        empowering individuals to embrace their inner strength and joy. <br/>Together, let's break the stigma, spread awareness, and cultivate a 
+        supportive community where everyone can flourish. Dive into a world where happiness is within reach, and well-being is a celebrated 
+        treasure. <br/>Spark your inner joy and join us in making mental health a priority for all!
+    </p>
+    <div class="button-container">
+        <button class="button" onclick="location.href='login.html'">Login</button>
+        <button class="button" onclick="location.href='register.html'">Register</button>
+    </div>
+</body>
+</html>

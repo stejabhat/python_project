@@ -1,0 +1,110 @@
+<style>
+    /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+    background-image: url('https://media.istockphoto.com/id/1496098122/photo/an-unrecognizable-businesswoman-taking-some-notes-in-her-notebook-while-working-in-the-office.jpg?s=612x612&w=0&k=20&c=SW5l-HIlDch_DTLScalvZGChEVQA-hKY9tcA-I9rKs8=');
+    background-size: cover;
+}
+
+/* Header Styles */
+h1, h2 {
+    color: #ecf5ff;
+    text-align: center;
+}
+
+/* Form Styles */
+form {
+    background: #01066752;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Slightly larger shadow for depth */
+    max-width: 400px;
+    margin: 20px auto;
+    color:white ;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold; /* Bold labels for better visibility */
+    color: #b0d7ff; /* Label color */
+}
+
+input[type="text"],
+textarea,
+input[type="datetime-local"],
+select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px; /* Increased margin for spacing */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+input[type="text"]:focus,
+textarea:focus,
+input[type="datetime-local"]:focus,
+select:focus {
+    border-color: #2980b9; /* Border color change on focus */
+    outline: none; /* Remove default outline */
+}
+
+button {
+    background-color: #2c3e50;
+    color: #ffffff;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Add transform transition */
+}
+
+button:hover {
+    background-color: #34495e;
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+button:active {
+    transform: translateY(0); /* Reset lift effect when clicked */
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    form {
+        max-width: 100%;
+    }
+}
+
+</style>
+<h2>Add New Task</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label for="title">Title:</label>
+    <input type="text" name="title" required>
+    
+    <label for="description">Description:</label>
+    <textarea name="description" rows="4" placeholder="Enter task description..."></textarea>
+    
+    <label for="deadline">Deadline:</label>
+    <input type="datetime-local" name="deadline" required>
+    
+    <label for="priority">Priority:</label>
+    <select name="priority">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+    
+    <button type="submit">Add Task</button>
+</form>

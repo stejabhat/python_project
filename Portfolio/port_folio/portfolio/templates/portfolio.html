@@ -1,0 +1,318 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            background-image: url("https://wallpapers.com/images/hd/black-space-4k-3840-x-2160-qxp3pytcn3e4l5g3.jpg");
+            background-size: cover;
+            color: #fff;
+            background-attachment: fixed;
+            background-position: center;
+            animation: gradientShift 10s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-section {
+            height: 100vh;
+            background-image: url('https://wallpapers.com/images/hd/dark-space-wallpaper-4bkn0k5l5l8o98ei.jpg');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 4em;
+            color: #fff;
+            margin: 0;
+            animation: fadeInSlide 1.5s ease-in-out forwards;
+        }
+
+        .hero-content p {
+            font-size: 1.5em;
+            color: #00ff00;
+            animation: fadeInSlide 2s ease-in-out forwards;
+        }
+
+        @keyframes fadeInSlide {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .container {
+            padding: 50px 20px;
+        }
+
+        .about-section, .portfolio-section, .contact-section {
+            margin-bottom: 60px;
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
+        }
+
+        .about-section {
+            animation-delay: 0.2s;
+        }
+
+        .portfolio-section {
+            animation-delay: 0.4s;
+        }
+
+        .contact-section {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #00ff00;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .overlay, .back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .portfolio-item:hover .overlay {
+            opacity: 1;
+        }
+
+        .overlay h3 {
+            font-size: 1.5em;
+            margin: 0;
+            color: #00ff00;
+        }
+
+        .overlay p {
+            font-size: 1em;
+            text-align: center;
+        }
+
+        .contact-section {
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: 2px solid transparent;
+            background-color: #00ff00;
+            color: #000;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            border-color: #00ff00;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #222;
+            font-size: 0.9em;
+            color: #fff;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #00ff00;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="spinner" id="spinner"></div>
+
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Explore My Creative and Technical Journey</h1>
+            <p>Showcasing My Passion and Obsession</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <section class="about-section">
+            <h2>About Me</h2>
+            <p>Welcome! I’m a passionate tech enthusiast and creative writer, blending the worlds of code and storytelling. 
+                With a knack for innovative solutions and a love for crafting compelling narratives, I bring a unique perspective to every project. 
+                Dive into my portfolio to explore the fusion of technology and creativity!</p>
+        </section>
+
+        <section class="portfolio-section">
+            <h2>My Work</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://t4.ftcdn.net/jpg/05/96/13/95/360_F_596139505_kmbaWcGU1w7TnU7gUH4s1kmwfVa072UA.jpg" alt="Short Term Job Hub">
+                    <div class="overlay">
+                        <h3>Short Term Job Hub</h3>
+                        <p>Platform connecting job seekers with short-term opportunities.</p>
+                    </div>
+                    <div class="back">
+                        <h3>More Details</h3>
+                        <p>Extended details about the Short Term Job Hub project.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://domf5oio6qrcr.cloudfront.net/medialibrary/14528/3f85b1b1-9dc7-4a90-855c-dc204646e889.jpg" alt="Mental Health Awareness">
+                    <div class="overlay">
+                        <h3>Mental Health <br/>&nbsp;&nbsp;&nbsp;&nbsp;Awarness</h3>
+                        <p>Initiative to promote mental health education and support.</p>
+                    </div>
+                    <div class="back">
+                        <h3>More Details</h3>
+                        <p>Extended details about the Mental Health Awareness project.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://png.pngtree.com/background/20230614/original/pngtree-man-walking-up-a-mountain-with-a-backpack-picture-image_3481455.jpg" alt="Tourism Guidence">
+                    <div class="overlay">
+                        <h3>Travel Guide</h3>
+                        <p>Used to guide the travellers about the place nearby them.</p>
+                    </div>
+                    <div class="back">
+                        <h3>More Details</h3>
+                        <p>Extended details about the Learning Projects.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://t3.ftcdn.net/jpg/05/73/57/76/360_F_573577614_3xNASp9y2eCUSXstGdXf9sKlW3ZYVyUr.jpg" alt="Smart Waste Management Using OpenCV">
+                    <div class="overlay">
+                        <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Smart<br/>Waste Management</h3>
+                        <p>System leveraging OpenCV for efficient waste management.</p>
+                    </div>
+                    <div class="back">
+                        <h3>More Details</h3>
+                        <p>Extended details about the Smart Waste Management project.</p>
+                    </div>
+                </div>
+                <div class="portfolio-item">
+                    <a href="{% url 'resume' %}" target="_blank" style="text-decoration: none; color: inherit;">
+                        <img src="https://img.freepik.com/premium-photo/top-view-laptop-computer-magnifying-glass-resumes-applicants-blue-background-job-search-concept_35674-14304.jpg" alt="Resume Page">
+                        <div class="overlay">
+                            <h3>Resume Page</h3>
+                            <p>A detailed resume showcasing my skills and experiences.</p>
+                        </div>
+                    </a>
+                    <div class="back">
+                        <h3>More Details</h3>
+                        <p><a href="{% url 'resume' %}" target="_blank" style="color: #00ff00; text-decoration: none;">Access my resume</a> for more information on my professional background.</p>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </section>
+
+        <section class="contact-section">
+    <h2>Contact Me</h2>
+    <p>
+        <a href="https://github.com/stejabhat" target="_blank" style="color: #00ff00; text-decoration: none; margin-right: 10px;">
+            <i class="fab fa-github fa-2x"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/tejabhat/" target="_blank" style="color: #00ff00; text-decoration: none; margin-right: 10px;">
+            <i class="fab fa-linkedin fa-2x"></i>
+        </a>
+        <a href="https://bitnarrative.blogspot.com/" target="_blank" style="color: #00ff00; text-decoration: none;">
+            <i class="fas fa-blog fa-2x"></i>
+        </a>
+    </p>
+</section>
+
+    </div>
+
+    <footer>
+        <p>© 2024 Bit Narrative</p>
+    </footer>
+
+    <script>
+        window.addEventListener('load', function() {
+            document.getElementById('spinner').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
