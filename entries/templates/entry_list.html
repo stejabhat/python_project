@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Entries</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #17171e;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            color: #e0e0e0;
+            position: relative;
+        }
+        h2 {
+            font-size: 2em;
+            color: #ffffff;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #4a4a5e;
+            padding-bottom: 10px;
+        }
+        .entry-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .entry-list li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #131318;
+            border-radius: 5px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .entry-list li:hover {
+            background-color: #4a4a5e;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .entry-list h3 {
+            margin-bottom: 5px;
+            font-size: 1.3em;
+        }
+        .entry-list h3 a {
+            color: #91c1ff;
+            text-decoration: none;
+        }
+        .entry-list h3 a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        .entry-list p {
+            font-size: 0.9em;
+            color: #b3b3cc;
+            margin-top: 5px;
+        }
+        .add-button, .edit-button, .delete-button, .publish-button, .back-button {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 1em;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 10px 5px 0 0;
+            transition: background-color 0.3s, opacity 0.3s;
+        }
+        .add-button { background-color: #6200ea; }
+        .edit-button { background-color: #0c8227; }
+        .delete-button { background-color: #f40909; border: none; cursor: pointer; }
+        .publish-button { background-color: #ffaa00; border: none; cursor: pointer; }
+        .back-button { background-color: #6c757d; }
+        .add-button:hover, .edit-button:hover, .delete-button:hover, .publish-button:hover, .back-button:hover { opacity: 0.9; }
+        
+        /* Profile picture styles */
+        .profile-picture {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Entries</h2>
+
+        <!-- Profile Picture -->
+        {% if user.profile.profile_picture %}
+            <a href="{% url 'user_profile' %}">
+                <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+            </a>
+        {% endif %}
+
+        <a href="{% url 'add_entry' %}" class="add-button">Add New Entry</a>
+        <ul class="entry-list">
+            {% for entry in entries %}
+                <li>
+                    <h3><a href="{% url 'entry_detail' entry.id %}">{{ entry.title }}</a></h3>
+                    <p><em>Created on:</em> {{ entry.created_at }}</p>
+                    <p>Status: {{ entry.published|yesno:"Published,Unpublished" }}</p>
+
+                    <!-- Edit and Delete buttons -->
+                    <a href="{% url 'edit_entry' entry.id %}" class="edit-button">Edit</a>
+                    <form method="post" action="{% url 'delete_entry' entry.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+
+                    <!-- Publish/Unpublish button -->
+                    <form method="post" action="{% url 'toggle_publish' entry.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="publish-button">
+                            {{ entry.published|yesno:"Unpublish,Publish" }}
+                        </button>
+                    </form>
+                </li>
+            {% empty %}
+                <li>No entries found. Start writing!</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
