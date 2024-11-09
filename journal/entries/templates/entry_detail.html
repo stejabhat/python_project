@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ entry.title }}</title>
+    <style>
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: #161111;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #f1f0f0;
+            margin-bottom: 20px;
+        }
+
+        .details, .content {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #222; /* Dark background for sections */
+        }
+
+        .details p, .content p {
+            font-size: 1em;
+            line-height: 1.6;
+            color: #fff7f7;
+            margin-bottom: 10px;
+        }
+
+        .add-button, .edit-button, .delete-button, .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 5px 0 0;
+            transition: background-color 0.3s, opacity 0.3s, transform 0.3s;
+        }
+
+        .add-button {
+            background-color: #007BFF;
+        }
+
+        .edit-button {
+            background-color: #28a745;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-button {
+            background-color: #6c757d;
+        }
+
+        .add-button:hover,
+        .edit-button:hover,
+        .delete-button:hover,
+        .back-button:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        /* Additional styling for hover effects */
+        .edit-button:hover {
+            background-color: #218838;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .details p, .content p {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>{{ entry.title }}</h2>
+        
+        <!-- Details Section -->
+        <div class="details">
+            <p><strong>Created At:</strong> {{ entry.created_at|date:"F j, Y, g:i a" }}</p>
+            <p><strong>Published:</strong> {{ entry.published }}</p>
+            <p><strong>Author:</strong> <a href="{% url 'user_profile' %}">{{ entry.user.username }}</a></p>
+        </div>
+
+        <!-- Content Section -->
+        <div class="content">
+            <p>{{ entry.content }}</p>
+        </div>
+        
+        <!-- Publish/Unpublish Link -->
+        <p>
+            <a href="{% url 'toggle_publish' entry.id %}">
+                {% if is_owner %}
+                    {% if entry.published %}
+                        Unpublish
+                    {% else %}
+                        Publish
+                    {% endif %}
+                {% endif %}
+            </a>
+        </p>
+        
+        <!-- Action Buttons -->
+        <div>
+            {% if is_owner %}
+                <a href="{% url 'edit_entry' entry.id %}" class="edit-button">Edit Entry</a>
+            {% endif %}
+            <a href="{% url 'entry_list' %}" class="back-button">Back to Entries</a>
+        </div>
+    </div>
+</body>
+</html>

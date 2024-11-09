@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Journal Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #090a0a;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-right: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+        .sidebar ul li a {
+            color: #adb5bd;
+            text-decoration: none;
+            font-size: 1em;
+        }
+        .sidebar ul li a:hover {
+            color: #ffffff;
+        }
+        
+        .container {
+            flex: 1;
+            padding: 20px;
+        }
+        h2 {
+            font-size: 1.8em;
+            color: #495057;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ced4da;
+            padding-bottom: 8px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .section h3 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+        
+        /* Entry list */
+        .entry-list {
+            list-style: none;
+            padding: 0;
+        }
+        .entry-list li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .entry-list h4 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .entry-list p {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        /* Action buttons */
+        .edit-button, .delete-button, .publish-button {
+            padding: 5px 10px;
+            font-size: 0.9em;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .edit-button { background-color: #17a2b8; }
+        .delete-button { background-color: #dc3545; }
+        .publish-button { background-color: #ffc107; }
+        .publish-button.unpublish { background-color: #6c757d; }
+
+        /* Profile picture */
+        .profile-picture {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar with navigation -->
+    <aside class="sidebar">
+        <h3>Dashboard</h3>
+        <ul>
+            <li><a href="#my-entries">My Entries</a></li>
+            <li><a href="#suggestions">Suggestions</a></li>
+            <li><a href="#deleted">Deleted Entries</a></li>
+            <li><a href="{% url 'user_profile' %}">Profile</a></li>
+        </ul>
+        <!-- Profile Picture -->
+        {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+        {% endif %}
+    </aside>
+
+    <!-- Main content area -->
+    <div class="container">
+
+        <!-- My Entries Section -->
+        <section id="my-entries" class="section">
+            <h2>My Entries</h2>
+            <ul class="entry-list">
+                {% for entry in entries %}
+                    <li>
+                        <div>
+                            <h4><a href="{% url 'entry_detail' entry.id %}">{{ entry.title }}</a></h4>
+                            <p><em>Created on:</em> {{ entry.created_at }}</p>
+                            <p>Status: {{ entry.published|yesno:"Published,Unpublished" }}</p>
+                        </div>
+                        <div>
+                            <a href="{% url 'edit_entry' entry.id %}" class="edit-button">Edit</a>
+                            <form method="post" action="{% url 'delete_entry' entry.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-button">Delete</button>
+                            </form>
+                            <form method="post" action="{% url 'toggle_publish' entry.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="publish-button {{ entry.published|yesno:'unpublish,' }}"> 
+                                    {{ entry.published|yesno:"Unpublish,Publish" }}
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                {% empty %}
+                    <li>No entries found. Start writing!</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Suggestions Section -->
+        <!-- Suggestions Section -->
+<section id="suggestions" class="section">
+    <h2>Suggestions</h2>
+    <div>
+        <h3>Topic Ideas:</h3>
+        <ul>
+            {% for suggestion in suggestions %}
+                <li>{{ suggestion }}</li>
+            {% empty %}
+                <li>No suggestions available at this time.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+       
+
+        <!-- Deleted Entries Section -->
+        <section id="deleted" class="section">
+            <h2>Deleted Entries</h2>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Main Page Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Dark background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevent overflow during animations */
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(10, 10, 10, 0.9)); /* Gradient background */
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); /* Enhanced shadows */
+            text-align: center;
+            color: #e3e7eb;
+            position: relative; /* For the light effects */
+            overflow: hidden; /* To contain the pseudo-elements */
+            transition: box-shadow 0.3s; /* Smooth transition for shadow */
+        }
+
+        .container:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 123, 255, 0.5); /* Enhanced shadows on hover */
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            right: 10%;
+            bottom: 10%;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            filter: blur(50px);
+            z-index: 0; /* Place behind the container content */
+            opacity: 0; /* Start hidden */
+            transition: opacity 0.3s; /* Smooth transition */
+        }
+
+        .container:hover::before {
+            opacity: 0.4; /* Show glow on hover */
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #f1f0f0; /* Lighter text color */
+            z-index: 1; /* Bring text above glow */
+        }
+
+        p {
+            font-size: 1em;
+            margin-bottom: 30px;
+            color: #d1d1d1; /* Slightly lighter gray */
+            z-index: 1;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            z-index: 1; /* Bring form elements above glow */
+        }
+
+        form input {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background-color: #222; /* Dark background for input fields */
+            color: #e3e7eb; /* Text color for input fields */
+        }
+
+        form input:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        form button {
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007BFF;
+            color: #ffffff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Button shadow */
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Increased shadow on hover */
+        }
+
+        form button:active {
+            transform: translateY(0);
+        }
+
+        .register-link {
+            font-size: 0.9em;
+            margin-top: 15px;
+            color: #d1d1d1; /* Consistent link color */
+        }
+
+        .register-link a {
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .register-link a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+        <p class="register-link">Don't have an account? <a href="{% url 'register' %}">Register here</a>.</p>
+    </div>
+
+    <script>
+        // Log if the submit button is clicked
+        const submitButton = document.querySelector('button[type="submit"]');
+        submitButton.addEventListener('click', function(event) {
+            console.log('Login button clicked');
+        });
+    </script>
+</body>
+</html>
